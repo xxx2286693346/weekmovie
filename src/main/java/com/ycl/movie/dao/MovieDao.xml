@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ycl.movie.dao.MovieDao">
+	<select id="molist" resultType="Movie">
+		SELECT * FROM movie order by ${zd} ${zhi}
+	</select>
+	
+	<delete id="deleteMovie">
+		DELETE FROM movie WHERE id IN (${id})
+	</delete>
+	
+	<select id="likelist" resultType="Movie">
+		SELECT * FROM movie
+		<where>
+		<if test="mname!=null and mname!=''">
+			 and mname LIKE '%${mname}%'
+		</if>
+		<if test="dao!=null and dao!=''">
+			 AND dao LIKE '%${dao}%'
+		</if>
+		<if test="nd!=null and nd!=''">
+			 AND nd=#{nd}
+		</if>
+		<if test="price!=null and price!=''">
+			 AND price>#{price}
+		</if>
+		<if test="price2!=null and price2!=''">
+			AND price&lt;#{price2}
+		</if>
+		<if test="longtime!=null and longtime!=''">
+			 AND longtime>#{longtime}
+		</if>
+		<if test="longtime2!=null and longtime2!=''">
+			  AND longtime&lt;#{longtime2}
+		</if>
+		<if test="time!=null and time!=''">
+			 AND TIME>#{time}
+		</if>
+		<if test="time2!=null and time2!=''">
+			 AND TIME&lt;=#{time2}
+		</if>
+		</where>
+	</select>
+	
+	<update id="updateMovieSj">
+		UPDATE movie SET zt='正在热映'   WHERE id=#{id}
+	</update>
+	
+	<update id="updateMovieXj">
+		UPDATE movie SET zt='已经下架'   WHERE id=#{id}
+	</update>
+</mapper>
